@@ -16,9 +16,11 @@ public:
     explicit Window(const std::string& title, bool isFullscreen = false);
     ~Window();
 
-    SDL_Window* Get() const;
-
     void InitOpenGl() const;
+    void GetWindowSize(int& width, int& height) const;
+    void SwapWindow() const;
+
+    void PollEvents(bool& running) const;
 
 private:
     int m_x;

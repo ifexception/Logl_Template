@@ -22,11 +22,6 @@ sdl::Window::~Window()
     }
 }
 
-SDL_Window* sdl::Window::Get() const
-{
-    return m_window;
-}
-
 void sdl::Window::InitOpenGl() const
 {
     auto context = SDL_GL_CreateContext(m_window);
@@ -38,6 +33,26 @@ void sdl::Window::InitOpenGl() const
     }
 
     SetGlAttributes();
+}
+
+void sdl::Window::GetWindowSize(int& width, int& height) const
+{
+    SDL_GetWindowSize(m_window, &width, &height);
+}
+
+void sdl::Window::SwapWindow() const
+{
+    SDL_GL_SwapWindow(m_window);
+}
+
+void sdl::Window::PollEvents(bool& running) const
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event) != 0) {
+        if (event.type == SDL_QUIT) {
+            running = false;
+        }
+    }
 }
 
 void sdl::Window::Init(const std::string& title, bool isFullscreen)
