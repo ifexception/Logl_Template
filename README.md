@@ -1,5 +1,5 @@
 # Logl_Template
-A template project for [learnopengl.com](learnopengl.com) using SDL2
+A template project for [learnopengl.com](https://learnopengl.com/) using SDL2
 
 SDL Window and OpenGL context creation abstracted away in `Window` class so `Main.cpp` can focus more on adding OpenGL calls and not blanket code with SDL_Window calls.
 
