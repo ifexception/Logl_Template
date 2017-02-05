@@ -32,7 +32,7 @@ private:
 
     void Init(const std::string& title, bool isFullscreen);
     uint32_t ToggleFullscreen(bool isFullscreen) const;
-    void SetGlAttributes() const;
+    void SetOpenGlAttrib() const;
 };
 
 }

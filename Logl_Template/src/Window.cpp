@@ -1,7 +1,10 @@
 #include "Window.h"
 #include <iostream>
 
-sdl::Window::Window(const std::string& title, bool isFullscreen)
+namespace sdl
+{
+
+Window::Window(const std::string& title, bool isFullscreen)
     : m_x(SDL_WINDOWPOS_CENTERED),
       m_y(SDL_WINDOWPOS_CENTERED),
       m_w(WIDTH),
@@ -15,14 +18,16 @@ sdl::Window::Window(const std::string& title, bool isFullscreen)
     Init(title, isFullscreen);
 }
 
-sdl::Window::~Window()
+Window::~Window()
 {
     if (m_window != nullptr) {
         SDL_DestroyWindow(m_window);
     }
+
+    SDL_Quit();
 }
 
-void sdl::Window::InitOpenGl() const
+void Window::InitOpenGl() const
 {
     auto context = SDL_GL_CreateContext(m_window);
     if (context == nullptr) {
@@ -32,20 +37,20 @@ void sdl::Window::InitOpenGl() const
         return;
     }
 
-    SetGlAttributes();
+    SetOpenGlAttrib();
 }
 
-void sdl::Window::GetWindowSize(int& width, int& height) const
+void Window::GetWindowSize(int& width, int& height) const
 {
     SDL_GetWindowSize(m_window, &width, &height);
 }
 
-void sdl::Window::SwapWindow() const
+void Window::SwapWindow() const
 {
     SDL_GL_SwapWindow(m_window);
 }
 
-void sdl::Window::PollEvents(bool& running) const
+void Window::PollEvents(bool& running) const
 {
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0) {
@@ -55,7 +60,7 @@ void sdl::Window::PollEvents(bool& running) const
     }
 }
 
-void sdl::Window::Init(const std::string& title, bool isFullscreen)
+void Window::Init(const std::string& title, bool isFullscreen)
 {
     auto flags = ToggleFullscreen(isFullscreen);
 
@@ -68,7 +73,7 @@ void sdl::Window::Init(const std::string& title, bool isFullscreen)
     }
 }
 
-uint32_t sdl::Window::ToggleFullscreen(bool isFullscreen) const
+uint32_t Window::ToggleFullscreen(bool isFullscreen) const
 {
     auto flags = 0;
     if (isFullscreen) {
@@ -81,11 +86,13 @@ uint32_t sdl::Window::ToggleFullscreen(bool isFullscreen) const
     return flags;
 }
 
-void sdl::Window::SetGlAttributes() const
+void Window::SetOpenGlAttrib() const
 {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
                         SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+}
+
 }
